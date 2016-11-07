@@ -1,0 +1,44 @@
+import PIL
+import numpy as np
+from PIL import Image
+from scipy import misc
+from mcpi.minecraft import Minecraft
+ 
+mc = Minecraft.create()
+ 
+basewidth = 100
+ 
+img = Image.open('D:/Onedrive/Test/test.jpg')
+wpercent = (basewidth / float(img.size[0]))
+hsize = int((float(img.size[1]) * float(wpercent)))
+img = img.resize((basewidth, hsize), PIL.Image.ANTIALIAS)
+img = img.convert('L')
+img.save('D:/Onedrive/Test/grey.jpg')
+imgGrey = Image.open('D:/Onedrive/Test/grey.jpg')
+ 
+arr = misc.imread('D:/Onedrive/Test/grey.jpg')
+ 
+arrGrey = []
+ 
+for row in arr:
+    for pix in row:
+        if pix <= 33:
+            arrGrey.append('(35, 15)')
+        elif pix > 33 and pix <= 116:
+            arrGrey.append('(35, 7)')
+        elif pix > 116 and pix <= 211:
+            arrGrey.append('(35, 15)')
+        else:
+            arrGrey.append('35')
+ 
+y = 0
+for row in arrGrey:
+    x = 0
+    for pix in row:
+        place = 0
+        color = arrGrey[y[place]]
+        mc.setBlock(x, 100, y, color)
+        place += 1
+    y  += 1
+   
+print('done')
